@@ -36,6 +36,8 @@
                 <br>${book.publisher} | ${book.releaseDate}
                 <p align=left>${fn:substring(book.description, 0, 100)}...
                 <p>${book.unitPrice}원
+                <p><a href="<c:url value="/books/book?id=${book.bookId}"/>"
+                      class="btn btn-Secondary" role="button">상세정보 &raquo;</a>
             </div>
         </c:forEach>
     </div>
@@ -43,6 +45,6 @@
     <footer>
         <p>&copy; BookMarket</p>
     </footer>
-    </div>
+</div>
 </body>
 </html>
