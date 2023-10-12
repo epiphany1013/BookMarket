@@ -1,4 +1,7 @@
 package com.springmvc.domain;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class Book {
     private String bookId;
     private String name;
@@ -10,6 +13,7 @@ public class Book {
     private String condition;
     private int unitPrice;
     private long unitsInStock;
+    private MultipartFile bookImage;
 
     public Book() {
         super();
@@ -19,6 +23,7 @@ public class Book {
         this.name = name;
         this.unitPrice = unitPrice;
     }
+
 
     public String getBookId() {
         return bookId;
@@ -98,5 +103,13 @@ public class Book {
 
     public void setUnitsInStock(long unitsInStock) {
         this.unitsInStock = unitsInStock;
+    }
+
+    public MultipartFile getBookImage() {
+        return bookImage;
+    }
+
+    public void setBookImage(MultipartFile bookImage) {
+        this.bookImage = bookImage;
     }
 }

@@ -7,8 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import com.springmvc.domain.Book;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -65,6 +67,34 @@ public class BookController {
 
     @PostMapping("/add")
     public String submitAddNewBook(@ModelAttribute("NewBook") Book book) {
+        MultipartFile bookImage = book.getBookImage();
+
+        String saveName = bookImage.getOriginalFilename();
+        File saveFile = new File("/Users/gh/Documents/code/java/BookMarket/src/main/webapp/resources/images", saveName);
+//        File saveFile = new File("/resources/images", saveName); // java파일에서는 경로를 절대경로로 적어주어야하고, jsp에서는 상대경로로 적어주어야 한다.
+
+        if (bookImage != null && !bookImage.isEmpty()) {
+            try (InputStream inputStream = bookImage.getInputStream();
+                 OutputStream outputStream = new FileOutputStream(saveFile)) {
+
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+
+            } catch (IOException e) {
+                throw new RuntimeException("도서 이미지 업로드가 실패하였습니다", e);
+            }
+        }
+//        if (bookImage != null && !bookImage.isEmpty()) {
+//            try {
+//                bookImage.transferTo(saveFile);
+//            } catch (Exception e) {
+//                throw new RuntimeException("도서 이미지 업로드가 실패하였습니다", e);
+//            }
+//        }
         bookService.setNewBook(book);
         return "redirect:/books";
     }
@@ -76,6 +106,6 @@ public class BookController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-       binder.setAllowedFields("bookId", "name", "unitPrice", "author", "description", "publisher", "category", "unitsInstock", "totalPages", "releaseDate", "condition") ;
+        binder.setAllowedFields("bookId", "name", "unitPrice", "author", "description", "publisher", "category", "unitsInstock", "totalPages", "releaseDate", "condition", "bookImage");
     }
 }
