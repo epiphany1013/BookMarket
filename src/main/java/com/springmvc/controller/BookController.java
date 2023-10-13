@@ -1,5 +1,6 @@
 package com.springmvc.controller;
 
+import com.springmvc.exception.BookIdException;
 import com.springmvc.exception.CategoryException;
 import com.springmvc.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.List;
 import java.util.Map;
@@ -117,5 +120,15 @@ public class BookController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.setAllowedFields("bookId", "name", "unitPrice", "author", "description", "publisher", "category", "unitsInstock", "totalPages", "releaseDate", "condition", "bookImage");
+    }
+
+    @ExceptionHandler(value = {BookIdException.class})
+    public ModelAndView handleError(HttpServletRequest req, BookIdException exception) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("invalidBookId", exception.getBookId());
+        mav.addObject("exception", exception);
+        mav.addObject("url", req.getRequestURL() + "?" + req.getQueryString());
+        mav.setViewName("errorBook");
+        return mav;
     }
 }
