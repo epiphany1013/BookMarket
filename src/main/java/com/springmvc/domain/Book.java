@@ -2,8 +2,12 @@ package com.springmvc.domain;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.*;
+
 public class Book {
+    @Pattern(regexp = "ISBN[1-9]+")
     private String bookId;
+    @Size(min = 4, max = 50)
     private String name;
     private String author;
     private String description;
@@ -11,6 +15,9 @@ public class Book {
     private String category;
     private String releaseDate;
     private String condition;
+    @Min(value = 0)
+    @Digits(integer = 8, fraction = 2)
+    @NotNull
     private int unitPrice;
     private long unitsInStock;
     private MultipartFile bookImage;
@@ -18,6 +25,7 @@ public class Book {
     public Book() {
         super();
     }
+
     public Book(String bookId, String name, int unitPrice) {
         this.bookId = bookId;
         this.name = name;

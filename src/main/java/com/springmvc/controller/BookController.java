@@ -6,6 +6,7 @@ import com.springmvc.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import com.springmvc.domain.Book;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.io.*;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +79,9 @@ public class BookController {
     }
 
     @PostMapping("/add")
-    public String submitAddNewBook(@ModelAttribute("NewBook") Book book) {
+    public String submitAddNewBook(@Valid @ModelAttribute("NewBook") Book book, BindingResult result) {
+        if (result.hasErrors())
+            return "addBook";
         MultipartFile bookImage = book.getBookImage();
 
         String saveName = bookImage.getOriginalFilename();
