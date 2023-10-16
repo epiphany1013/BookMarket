@@ -1,10 +1,12 @@
 package com.springmvc.domain;
 
+import com.springmvc.validator.BookId;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
 
 public class Book {
+    @BookId
     @Pattern(regexp = "ISBN[1-9]+")
     private String bookId;
     @Size(min = 4, max = 50)
