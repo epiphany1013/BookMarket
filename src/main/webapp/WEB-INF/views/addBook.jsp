@@ -98,7 +98,9 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-2 control-label"><spring:message code="addBook.form.unitsInStock.label"/></label>
+                <label class="col-sm-2 control-label">
+                    <spring:message code="addBook.form.unitsInStock.label"/>
+                </label>
                 <div class="col-sm-3">
                     <form:input path="unitsInStock" class="form-control"/>
                 </div>
