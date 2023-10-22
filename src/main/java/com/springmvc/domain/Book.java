@@ -4,8 +4,11 @@ import com.springmvc.validator.BookId;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
+import java.io.Serializable;
 
-public class Book {
+public class Book implements Serializable {
+
+    private static final long serialVersionUID = -7715651009026349175L;
     @BookId
     @Pattern(regexp = "ISBN[1-9]+")
     private String bookId;
